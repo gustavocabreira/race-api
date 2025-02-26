@@ -1,7 +1,7 @@
-# Softplan Backend Challenge
+# Grupo Criar Fullstack Challenge
 
 ### Candidato: Gustavo de Sousa Cabreira
-### Vaga: Pessoa Desenvolvedora PHP (Sênior) - Cód. 9326
+### Vaga: Pessoa Desenvolvedora PHP (Sênior)
 
 ## Sobre o projeto
 
