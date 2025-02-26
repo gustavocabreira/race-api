@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Race extends Model
 {
@@ -21,4 +22,14 @@ class Race extends Model
         'happens_at' => 'datetime',
         'total_laps' => 'integer',
     ];
+
+    public function laps(): HasMany
+    {
+        return $this->hasMany(Lap::class);
+    }
+
+    public function drivers(): HasMany
+    {
+        return $this->hasMany(Driver::class);
+    }
 }
