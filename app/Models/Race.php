@@ -27,9 +27,4 @@ class Race extends Model
     {
         return $this->hasMany(Lap::class);
     }
-
-    public function positions()
-    {
-        return $this->laps()->sum('duration')->groupBy('driver_id')->orderBy('duration')->limit(3);
-    }
 }
