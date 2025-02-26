@@ -11,6 +11,6 @@ Route::name('api.')->group(function () {
         Route::post('login', [LoginController::class, 'login'])->name('login');
     });
     Route::apiResource('drivers', DriverController::class)->only('store');
-    Route::apiResource('races', RaceController::class)->only('store');
+    Route::apiResource('races', RaceController::class)->only('store', 'index');
     Route::apiResource('races.drivers.laps', LapController::class)->only('store');
 });
