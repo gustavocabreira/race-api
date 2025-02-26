@@ -37,3 +37,18 @@ test('it should be able to store a new lap', function () {
 
     $this->assertDatabaseCount($model->getTable(), 3);
 });
+
+test('it should return not found when trying to create a new lap to a race that does not exist', function () {
+    $model = new Lap;
+
+    $driver = Driver::factory()->create();
+
+    $response = $this->postJson(route('api.races.drivers.laps.store', [
+        'race' => -1,
+        'driver' => $driver->id,
+    ]));
+
+    $response->assertNotFound();
+
+    $this->assertDatabaseCount($model->getTable(), 0);
+});
