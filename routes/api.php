@@ -13,4 +13,5 @@ Route::name('api.')->group(function () {
     Route::apiResource('drivers', DriverController::class)->only('store');
     Route::apiResource('races', RaceController::class)->only('store', 'index');
     Route::apiResource('races.drivers.laps', LapController::class)->only('store');
+    Route::get('/races/{race}/drivers', [RaceController::class, 'drivers'])->name('races.drivers.index');
 });

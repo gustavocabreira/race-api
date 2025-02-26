@@ -43,4 +43,25 @@ class RaceController extends Controller
 
         return response()->json($race, Response::HTTP_CREATED);
     }
+
+    public function drivers(Race $race): JsonResponse
+    {
+        $drivers = $race->laps->groupBy('driver_id');
+
+        $positions = $drivers->map(function ($laps) {
+            return [
+                'driver_id' => $laps->first()->driver->id,
+                'name' => $laps->first()->driver->name,
+                'duration' => $laps->sum('duration'),
+                'best_lap' => $laps->sortBy('duration')->first(),
+            ];
+        })->sortBy('positions.duration')->values();
+
+        $drivers = [
+            ...$race->toArray(),
+            'positions' => $positions,
+        ];
+
+        return response()->json($drivers, Response::HTTP_OK);
+    }
 }
