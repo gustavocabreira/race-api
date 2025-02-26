@@ -52,3 +52,18 @@ test('it should return not found when trying to create a new lap to a race that 
 
     $this->assertDatabaseCount($model->getTable(), 0);
 });
+
+test('it should return not found when trying to create a new lap to a driver that does not exist', function () {
+    $model = new Lap;
+
+    $race = Race::factory()->create();
+
+    $response = $this->postJson(route('api.races.drivers.laps.store', [
+        'race' => $race->id,
+        'driver' => -1,
+    ]));
+
+    $response->assertNotFound();
+
+    $this->assertDatabaseCount($model->getTable(), 0);
+});
