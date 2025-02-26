@@ -19,6 +19,15 @@ class LapController extends Controller
             '*.duration' => ['required', 'integer', 'min:1'],
         ]);
 
+        $lapCount = count($validated);
+        $lapsThatExists = $race->laps->where('driver_id', $driver->id)->count();
+
+        if (($lapCount + $lapsThatExists) > $race->total_laps) {
+            return response()->json([
+                'message' => 'Can not create more laps than the race supports.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         $payload = [];
 
         foreach ($validated as $lap) {

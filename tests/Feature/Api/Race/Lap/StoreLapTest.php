@@ -6,7 +6,10 @@ use App\Models\Race;
 
 test('it should be able to store a new lap', function () {
     $model = new Lap;
-    $race = Race::factory()->create();
+    $race = Race::factory()->create([
+        'total_laps' => 3,
+    ]);
+
     $driver = Driver::factory()->create();
 
     $payload = [
@@ -66,4 +69,37 @@ test('it should return not found when trying to create a new lap to a driver tha
     $response->assertNotFound();
 
     $this->assertDatabaseCount($model->getTable(), 0);
+});
+
+test('it should not create a new lap when trying to insert more laps than the race have', function () {
+    $model = new Lap;
+    $race = Race::factory()->create();
+    $driver = Driver::factory()->create();
+
+    $race = Race::factory()->create([
+        'total_laps' => 1,
+    ]);
+
+    Lap::query()->insert([
+        'race_id' => $race->id,
+        'driver_id' => $driver->id,
+        'number' => 1,
+        'duration' => rand(60, 180),
+    ]);
+
+    $driver = Driver::factory()->create();
+
+    $payload = [
+        ['number' => 2, 'duration' => rand(60, 180)],
+        ['number' => 3, 'duration' => rand(60, 180)],
+    ];
+
+    $response = $this->postJson(route('api.races.drivers.laps.store', [
+        'race' => $race->id,
+        'driver' => $driver->id,
+    ]), $payload);
+
+    $response->assertUnprocessable();
+
+    expect($response->json('message'))->toBe('Can not create more laps than the race supports.');
 });
