@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -10,12 +11,9 @@ use Illuminate\Http\Response;
 
 class LoginController extends Controller
 {
-    public function login(Request $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required'],
-        ]);
+        $validated = $request->validated();
 
         if (! Auth::attempt($validated)) {
             return response()->json([

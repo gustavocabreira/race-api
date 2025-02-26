@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Lap\StoreLapRequest;
 use App\Models\Driver;
 use App\Models\Lap;
 use App\Models\Race;
@@ -11,13 +12,9 @@ use Illuminate\Http\Response;
 
 class LapController extends Controller
 {
-    public function store(Race $race, Driver $driver, Request $request): JsonResponse
+    public function store(Race $race, Driver $driver, StoreLapRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            '*' => ['required', 'array', 'min:1'],
-            '*.number' => ['required', 'integer', 'min:1'],
-            '*.duration' => ['required', 'integer', 'min:1'],
-        ]);
+        $validated = $request->validated();
 
         $lapCount = count($validated);
         $lapsThatExists = $race->laps->where('driver_id', $driver->id)->count();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Driver\StoreDriverRequest;
 use App\Models\Driver;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,11 +18,9 @@ class DriverController extends Controller
         return response()->json($drivers, Response::HTTP_OK);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(StoreDriverRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
+        $validated = $request->validated();
 
         $driver = Driver::query()->create($validated);
 
