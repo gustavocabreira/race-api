@@ -10,6 +10,13 @@ use Illuminate\Http\Response;
 
 class DriverController extends Controller
 {
+    public function index()
+    {
+        $drivers = Driver::query()->orderBy('name')->get();
+
+        return response()->json($drivers, Response::HTTP_OK);
+    }
+
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([

@@ -18,9 +18,11 @@ Route::name('api.')->group(function () {
     });
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::apiResource('drivers', DriverController::class)->only('store');
-        Route::apiResource('races', RaceController::class)->only('store', 'index');
+        Route::apiResource('drivers', DriverController::class)->only('store', 'index');
+        Route::apiResource('races', RaceController::class)->only('store', 'index', 'show');
         Route::apiResource('races.drivers.laps', LapController::class)->only('store');
         Route::get('/races/{race}/drivers', [RaceController::class, 'drivers'])->name('races.drivers.index');
+
+        Route::post('auth/logout', [LoginController::class, 'logout'])->name('Logout');
     });
 });

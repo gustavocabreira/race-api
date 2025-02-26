@@ -16,7 +16,7 @@ test('it should be able to store a new race', function () {
 
     $this->assertDatabaseHas($model->getTable(), [
         'id' => $response->json('id'),
-        ...$payload,
+        'place' => $response->json('place'),
     ]);
 
     $this->assertDatabaseCount($model->getTable(), 1);

@@ -5,8 +5,7 @@ use App\Models\Lap;
 use App\Models\Race;
 use App\Models\User;
 
-test('it should be able to list all races', function () {
-    $model = new Race;
+test('it should be able to show a race', function () {
     $user = User::factory()->create();
     $race = Race::factory()->create([
         'total_laps' => 3,
@@ -34,11 +33,17 @@ test('it should be able to list all races', function () {
 
     Lap::query()->insert($laps);
 
-    $response = $this->actingAs($user)->getJson(route('api.races.index'));
+    $response = $this->actingAs($user)->getJson(route('api.races.show', [
+        'race' => $race->id,
+    ]));
 
-    $response
-        ->assertOk()
-        ->assertJsonStructure([
-            '*' => $model->getFillable(),
-        ]);
+    $response->assertOk();
+
+    $race = $response->json();
+
+    expect($race['top_3'][0]['name'])->toBe($drivers[0]->name);
+    expect($race['top_3'][1]['name'])->toBe($drivers[1]->name);
+    expect($race['top_3'][2]['name'])->toBe($drivers[3]->name);
+    expect($race['drivers_count'])->toBe(4);
+    expect($race['duration'])->toBe(330);
 });

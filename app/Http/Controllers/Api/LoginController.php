@@ -30,4 +30,13 @@ class LoginController extends Controller
             'access_token' => $token->plainTextToken,
         ], Response::HTTP_OK);
     }
+
+    public function logout(): JsonResponse
+    {
+        request()->user()->tokens()->delete();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
 }
