@@ -1,66 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Softplan Backend Challenge
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Candidato: Gustavo de Sousa Cabreira
+### Vaga: Pessoa Desenvolvedora PHP (Sênior) - Cód. 9326
 
-## About Laravel
+## Sobre o projeto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Uma API para listar as corridas e os pilotos que participaram delas. 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tecnologias Utilizadas
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Docker e Docker Compose
+- PHP 8.4
+- Laravel Framework
+- Swoole (Laravel Octane)
+- MySQL
+- [Nginx](https://www.nginx.com/) (Servidor de aplicações)
+- [Pest](https://pestphp.com/) (Testes)
+- [Supervisor](https://github.com/ochinchina/supervisord) (Gerenciador de processos)
+- [Scramble](https://scramble.dedoc.co/) (Documentação)
 
-## Learning Laravel
+## Instalação
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Requisitos
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- [Docker](https://docs.docker.com/engine/install/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- Deverá ter as portas 80, 3306, 6379 e 9051 disponíveis.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Executando o projeto
 
-## Laravel Sponsors
+1. Clone o repositório
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+git clone https://github.com/gustavocabreira/race-api.git
+```
 
-### Premium Partners
+2. Entre na pasta do projeto
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```bash
+cd race-api
+```
 
-## Contributing
+3. Entre na pasta docker/local
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+cd docker/local
+```
 
-## Code of Conduct
+4. Execute o comando para instalar o projeto
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+sh install.sh --app-name=races
+```
 
-## Security Vulnerabilities
+5. Após a instalação, utilize o comando para iniciar o projeto
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+sh start.sh
+```
 
-## License
+6. Acesse a aplicação em http://localhost
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+7. Você pode acessar a documentação do projeto em http://localhost/docs/api
+
+## Código de respostas HTTP
+
+| Código | Descrição              | Explicação                                                                     | 
+|--------|------------------------|--------------------------------------------------------------------------------|
+| 200 | OK                        | A requisição performou com sucesso.                                            |
+| 201 | Created                   | O recurso foi criado com sucesso.                                              |
+| 204 | No Content                | A requisição performou com sucesso, mas não retornou nenhum conteúdo.          |
+| 404 | Not Found                 | O recurso não foi encontrado.                                                  |
+| 422 | Unprocessable Entity      | O recurso não pode ser processado devido a um erro nas informações fornecidas. |
+| 500 | Internal Server Error     | Ocorreu um erro no servidor.                                                   |
+
+## Testes
+
+Os testes do projeto estão no diretório `tests/` e foram desenvolvidos utilizando o pacote [Pest](https://pestphp.com/docs/installation).
+Pest é uma biblioteca de testes para PHP que permite escrever testes de forma fácil e rápida.
+
+Para executar os testes, siga os passos abaixo:
+
+1. Acesse o diretório /docker/local
+2. Execute o comando para interagir com o container
+
+```bash
+docker compose exec -it laravel sh
+```
+
+3. Execute o seguinte comando
+
+```bash
+php artisan test
+```
