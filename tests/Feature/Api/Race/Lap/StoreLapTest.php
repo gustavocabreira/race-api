@@ -3,8 +3,10 @@
 use App\Models\Driver;
 use App\Models\Lap;
 use App\Models\Race;
+use App\Models\User;
 
 test('it should be able to store a new lap', function () {
+    $user = User::factory()->create();
     $model = new Lap;
     $race = Race::factory()->create([
         'total_laps' => 3,
@@ -18,7 +20,7 @@ test('it should be able to store a new lap', function () {
         ['number' => 3, 'duration' => rand(60, 180)],
     ];
 
-    $response = $this->postJson(route('api.races.drivers.laps.store', [
+    $response = $this->actingAs($user)->postJson(route('api.races.drivers.laps.store', [
         'race' => $race->id,
         'driver' => $driver->id,
     ]), $payload);
@@ -43,10 +45,11 @@ test('it should be able to store a new lap', function () {
 
 test('it should return not found when trying to create a new lap to a race that does not exist', function () {
     $model = new Lap;
+    $user = User::factory()->create();
 
     $driver = Driver::factory()->create();
 
-    $response = $this->postJson(route('api.races.drivers.laps.store', [
+    $response = $this->actingAs($user)->postJson(route('api.races.drivers.laps.store', [
         'race' => -1,
         'driver' => $driver->id,
     ]));
@@ -58,10 +61,11 @@ test('it should return not found when trying to create a new lap to a race that 
 
 test('it should return not found when trying to create a new lap to a driver that does not exist', function () {
     $model = new Lap;
+    $user = User::factory()->create();
 
     $race = Race::factory()->create();
 
-    $response = $this->postJson(route('api.races.drivers.laps.store', [
+    $response = $this->actingAs($user)->postJson(route('api.races.drivers.laps.store', [
         'race' => $race->id,
         'driver' => -1,
     ]));
@@ -75,6 +79,7 @@ test('it should not create a new lap when trying to insert more laps than the ra
     $model = new Lap;
     $race = Race::factory()->create();
     $driver = Driver::factory()->create();
+    $user = User::factory()->create();
 
     $race = Race::factory()->create([
         'total_laps' => 1,
@@ -94,7 +99,7 @@ test('it should not create a new lap when trying to insert more laps than the ra
         ['number' => 3, 'duration' => rand(60, 180)],
     ];
 
-    $response = $this->postJson(route('api.races.drivers.laps.store', [
+    $response = $this->actingAs($user)->postJson(route('api.races.drivers.laps.store', [
         'race' => $race->id,
         'driver' => $driver->id,
     ]), $payload);

@@ -1,14 +1,16 @@
 <?php
 
 use App\Models\Driver;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 test('it should be able to store a new driver', function () {
+    $user = User::factory()->create();
     $model = new Driver;
     $payload = Driver::factory()->make()->toArray();
 
-    $response = $this->postJson(route('api.drivers.store'), $payload);
+    $response = $this->actingAs($user)->postJson(route('api.drivers.store'), $payload);
 
     $response
         ->assertCreated()
@@ -34,8 +36,9 @@ dataset('invalid_payload', [
 test('it should return unprocessable entity when providing invalid payload', function (array $payload, array $expectedErrors) {
     $key = array_keys($expectedErrors);
     $model = new Driver;
+    $user = User::factory()->create();
 
-    $response = $this->postJson(route('api.drivers.store'), $payload);
+    $response = $this->actingAs($user)->postJson(route('api.drivers.store'), $payload);
 
     $response
         ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
